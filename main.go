@@ -27,7 +27,11 @@ func main() {
 	r := gin.Default()
 	r.Use(middlewares.CORSMiddleware())
 	db := config.NewDB()
-	if err := db.Debug().AutoMigrate(&models.User{}, &models.Game{}); err == nil && db.Migrator().HasTable(&models.User{}) {
+	if err := db.Debug().AutoMigrate(
+		&models.User{},
+		&models.Game{},
+		&models.TransactionLog{},
+	); err == nil && db.Migrator().HasTable(&models.User{}) {
 		if err := db.First(&models.User{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
 			//Insert seed data
 			user := models.User{Email: "olaifabolu@gmail.com"}
@@ -39,6 +43,8 @@ func main() {
 	r.GET("/wallet/get-balance", controllers.GetWalletBalance)
 
 	r.GET("/game/start", controllers.StartGame)
+	r.GET("/game/roll-dice", controllers.RollDice)
+	r.GET("/game/end", controllers.EndGame)
 
 	r.Run(":8080")
 
