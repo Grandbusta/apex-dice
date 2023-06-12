@@ -46,6 +46,8 @@ func main() {
 	r.GET("/game/roll-dice", controllers.RollDice)
 	r.GET("/game/end", controllers.EndGame)
 
+	r.GET("/transaction-logs", controllers.GetTransactionLogs)
+
 	r.Run(":8080")
 
 }

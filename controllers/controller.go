@@ -168,3 +168,15 @@ func EndGame(ctx *gin.Context) {
 
 	utils.SuccessWithMessage(ctx, http.StatusOK, "Game ended")
 }
+
+func GetTransactionLogs(ctx *gin.Context) {
+	db := config.NewDB()
+	logs, err := models.GetTrasactionLogs(db)
+	if err != nil {
+		log.Println(err)
+		utils.ServerResponse(ctx, http.StatusInternalServerError, "An error occured")
+		return
+	}
+	utils.SuccessWithData(ctx, http.StatusOK, logs)
+
+}

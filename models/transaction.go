@@ -21,3 +21,13 @@ func (t *TransactionLog) Add(db *gorm.DB) error {
 	}
 	return nil
 }
+
+func GetTrasactionLogs(db *gorm.DB) ([]TransactionLog, error) {
+	var logs []TransactionLog
+	err := db.Debug().Model(&TransactionLog{}).Find(&logs).Error
+	if err != nil {
+		return logs, err
+	}
+	return logs, nil
+
+}
